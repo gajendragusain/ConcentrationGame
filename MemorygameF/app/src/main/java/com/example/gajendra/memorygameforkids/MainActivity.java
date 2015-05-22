@@ -87,9 +87,9 @@ public class MainActivity extends ActionBarActivity {
                 image = (BoxView) view;
                 pos = position;
                 if (COUNT_MOVE != 2) {
-                    //gridView.setOnItemClickListener(null);
+
                     if (image.isDiscovered() == false) {
-                        //flip(image);
+                       
                                 image.setImageResource(images[pos]);
                                 image.setTag(images[pos]);
                                 image.setDiscovered(true);
