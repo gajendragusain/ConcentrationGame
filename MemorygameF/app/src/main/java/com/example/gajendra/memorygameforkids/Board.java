@@ -65,56 +65,9 @@ public class Board extends ActionBarActivity {
             }
         });
 
-       // addListenerOnButton();
-        //radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
-       /* radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                String val;
-                if(i==R.id.radioButton1){
-                    val = radioButton1.getText().toString();
-
-                }
-                else if(i==R.id.radioButton2){
-                    val=radioButton2.getText().toString();
-                }
-                else if(i==R.id.radioButton3){
-                    val=radioButton3.getText().toString();
-                }
-                else{
-                    val="4";
-                    Toast.makeText(getBaseContext(), "Please Check one of the radio buttons next time, value set to 4", Toast.LENGTH_LONG).show();
-                }
-            }
-        });*/
 
     }
 
-
-   /* public void addListenerOnButton() {
-
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        final RadioButton radioButton1 = (RadioButton) findViewById(R.id.radioButton1);
-        final RadioButton radioButton2 = (RadioButton) findViewById(R.id.radioButton2);
-        final RadioButton radioButton3 = (RadioButton) findViewById(R.id.radioButton3);
-        button = (Button) findViewById(R.id.button);
-       button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                // get selected radio button from radioGroup
-                int selectedId = radioGroup.getCheckedRadioButtonId();
-
-                // find the radiobutton by returned id
-                radiobutton = (RadioButton) findViewById(selectedId);
-
-                Toast.makeText(getBaseContext(),"id: "+radiobutton.getId(),Toast.LENGTH_LONG).show();
-            }
-
-        });
-
-    }*/
 
     @Override
     public void onBackPressed() {

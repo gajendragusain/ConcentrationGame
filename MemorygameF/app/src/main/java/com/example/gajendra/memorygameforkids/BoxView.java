@@ -10,7 +10,7 @@ import android.widget.ImageView;
 /**
  * Created by GajendraS on 18-04-2015.
  */
-public class BoxView extends ImageView implements Cloneable{
+public class BoxView extends ImageView{
     private boolean discovered = false;
 
     public BoxView(final Context context) {
@@ -39,10 +39,4 @@ public class BoxView extends ImageView implements Cloneable{
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth()); //Snap to width
     }
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
 }

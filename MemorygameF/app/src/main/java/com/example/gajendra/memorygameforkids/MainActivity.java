@@ -94,7 +94,6 @@ public class MainActivity extends ActionBarActivity {
                                 image.setTag(images[pos]);
                                 image.setDiscovered(true);
                                 makeMove(image);
-                                gridView.setOnItemClickListener(listen);
 
 
                     }
@@ -105,19 +104,17 @@ public class MainActivity extends ActionBarActivity {
 
                                 firstImage.setDiscovered(true);
                                 secondImage.setDiscovered(true);
-
                                 match++;
+                                animate(firstImage);
+                                animate(secondImage);
                         image.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                animate(firstImage);
-                                animate(secondImage);
+
                                 resetMove();
                                 gridView.setOnItemClickListener(listen);
-                                //gridView.setEnabled(true);
-                                //gridView.setClickable(true);
                             }
-                        }, 1000);
+                        }, 700);
 
 
                     } else {
@@ -125,8 +122,6 @@ public class MainActivity extends ActionBarActivity {
                         image.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                //flip(firstImage);
-                                //flip(secondImage);
 
                                         firstImage.setImageResource(R.drawable.hidden);
                                         secondImage.setImageResource(R.drawable.hidden);
@@ -155,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
                             startActivity(end);
 
                         }
-                    },3000);
+                    },2000);
 
                 }
             }
@@ -244,12 +239,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void animate(View v){
-        final AlphaAnimation blinkanimation= new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
-        blinkanimation.setDuration(300); // duration - half a second
-        blinkanimation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
-        blinkanimation.setRepeatCount(6); // Repeat animation infinitely
-        blinkanimation.setRepeatMode(Animation.REVERSE);
-        v.startAnimation(blinkanimation);
+        final AlphaAnimation blink= new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
+        blink.setDuration(300); // duration - half a second
+        blink.setInterpolator(new LinearInterpolator()); // do not alter animation rate
+        blink.setRepeatCount(6); // Repeat animation infinitely
+        blink.setRepeatMode(Animation.REVERSE);
+        v.startAnimation(blink);
     }
 
 
