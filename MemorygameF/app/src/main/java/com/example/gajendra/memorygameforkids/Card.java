@@ -10,18 +10,18 @@ import android.widget.ImageView;
 /**
  * Created by GajendraS on 18-04-2015.
  */
-public class BoxView extends ImageView{
+public class Card extends ImageView{
     private boolean discovered = false;
 
-    public BoxView(final Context context) {
+    public Card(final Context context) {
         super(context);
     }
 
-    public BoxView(final Context context, final AttributeSet attrs) {
+    public Card(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BoxView(final Context context, final AttributeSet att_set, final int style) {
+    public Card(final Context context, final AttributeSet att_set, final int style) {
         super(context, att_set, style);
     }
 

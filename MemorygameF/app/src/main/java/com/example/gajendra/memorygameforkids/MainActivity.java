@@ -31,13 +31,11 @@ public class MainActivity extends ActionBarActivity {
     private Integer[] images,imageIDs;
     private Integer[] voices,voiceIDs;
     private int match=0, COUNT_MOVE = 0;
-    private BoxView firstImage, secondImage;
-    private int firstPlayerScore;
-    private int secondPlayerScore;
-    private int turn, Size, pos;
-    private BoxView image,clone;
+    private Card firstImage, secondImage;
+    private int attempts=0, Size, pos;
+    private Card image;
     private AdapterView.OnItemClickListener listen;
-    private Button smallbutton,board;
+    private Button reset,board;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Size = getIntent().getIntExtra("size",4);
         final GridView gridView = (GridView) findViewById(R.id.gridView);
-        smallbutton=(Button)findViewById(R.id.smallbutton);
+        reset =(Button)findViewById(R.id.reset);
         board=(Button)findViewById(R.id.board);
         images = new Integer[Size * Size];
         imageIDs=new Integer[18];
@@ -84,8 +82,9 @@ public class MainActivity extends ActionBarActivity {
         listen=new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                image = (BoxView) view;
+                image = (Card) view;
                 pos = position;
+                attempts++;
                 if (COUNT_MOVE != 2) {
 
                     if (image.isDiscovered() == false) {
@@ -94,8 +93,6 @@ public class MainActivity extends ActionBarActivity {
                                 image.setTag(images[pos]);
                                 image.setDiscovered(true);
                                 makeMove(image);
-
-
                     }
                 }
                 if (COUNT_MOVE == 2) {
@@ -146,6 +143,7 @@ public class MainActivity extends ActionBarActivity {
                             player.stop();
                             end.start();
                             Intent end = new Intent(MainActivity.this, End.class);
+                            end.putExtra("attempts",attempts);
                             finish();
                             startActivity(end);
 
@@ -155,14 +153,14 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         };
-        smallbutton.setOnClickListener(new View.OnClickListener() {
+        reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 player.stop();
                 player.reset();
                 player.release();
                 player = null;
-                Intent main = new Intent(MainActivity.this,MainActivity.class);
+                Intent main = new Intent(MainActivity.this, MainActivity.class);
                 main.putExtra("size", Size);
                 finish();
                 startActivity(main);
@@ -189,7 +187,7 @@ public class MainActivity extends ActionBarActivity {
         status.setText("No. of Match: "+match);
     }
 
-    public void makeMove(BoxView box) {
+    public void makeMove(Card box) {
         if (COUNT_MOVE == 0) {
             firstImage = box;
             pl1 = MediaPlayer.create(getApplicationContext(), hm.get(images[pos]));
@@ -250,7 +248,7 @@ public class MainActivity extends ActionBarActivity {
 
     public class ImageAdapter extends BaseAdapter {
 
-        private BoxView imageView;
+        private Card imageView;
         private Context context;
 
         public ImageAdapter(Context c) {
@@ -276,10 +274,10 @@ public class MainActivity extends ActionBarActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             if (convertView == null) {
-                imageView = new BoxView(context);
+                imageView = new Card(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             } else {
-                imageView = (BoxView) convertView;
+                imageView = (Card) convertView;
             }
             imageView.setImageResource(R.drawable.hidden);
             //imageView.setImageBitmap(B);
@@ -312,7 +310,7 @@ public class MainActivity extends ActionBarActivity {
         finish();
 
     }
-    public void flip(BoxView view_new){
+    public void flip(Card view_new){
 
         FlipAnimator animator = new FlipAnimator(view_new,view_new, view_new.getWidth() / 2, view_new.getHeight() / 2);
         /*if (view_old.getVisibility() == View.GONE) {

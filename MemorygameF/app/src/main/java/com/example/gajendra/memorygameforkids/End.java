@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class End extends ActionBarActivity {
@@ -18,6 +19,9 @@ public class End extends ActionBarActivity {
         Button button1=(Button)findViewById(R.id.button1);
         Button button2=(Button)findViewById(R.id.button2);
         Button button3=(Button)findViewById(R.id.button3);
+        int attempts=getIntent().getIntExtra("attempts",0);
+        TextView textView2=(TextView)findViewById(R.id.textView2);
+        textView2.setText("No. of Attempts: "+attempts);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
