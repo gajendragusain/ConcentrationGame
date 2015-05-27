@@ -13,9 +13,10 @@
         android:text="Board"
         android:id="@+id/button1"
         android:background="@color/material_deep_teal_500"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/textView3"
         android:layout_toLeftOf="@+id/textView"
-        android:layout_toStartOf="@+id/textView" />
+        android:layout_toStartOf="@+id/textView"
+        android:layout_marginTop="69dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -49,12 +50,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="No. of attempts: "
         android:id="@+id/textView2"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="38dp"
         android:layout_below="@+id/textView"
-        android:layout_toRightOf="@+id/button1"
-        android:layout_toEndOf="@+id/button1" />
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Time Taken: "
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textView" />
 
 </RelativeLayout>

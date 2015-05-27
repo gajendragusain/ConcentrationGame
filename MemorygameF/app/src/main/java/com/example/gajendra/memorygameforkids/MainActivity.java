@@ -33,6 +33,7 @@ public class MainActivity extends ActionBarActivity {
     private int match=0, COUNT_MOVE = 0;
     private Card firstImage, secondImage;
     private int attempts=0, Size, pos;
+    private long START_TIME,END_TIME,TIME_ELAPSED;
     private Card image;
     private AdapterView.OnItemClickListener listen;
     private Button reset,board;
@@ -43,6 +44,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Size = getIntent().getIntExtra("size",4);
+        START_TIME=System.currentTimeMillis();
         final GridView gridView = (GridView) findViewById(R.id.gridView);
         reset =(Button)findViewById(R.id.reset);
         board=(Button)findViewById(R.id.board);
@@ -137,13 +139,16 @@ public class MainActivity extends ActionBarActivity {
                 if (isFinished()) {
                     gridView.setEnabled(false);
                     animate(status);
+                    END_TIME=System.currentTimeMillis();
                     image.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             player.stop();
                             end.start();
+                            TIME_ELAPSED=END_TIME-START_TIME;
                             Intent end = new Intent(MainActivity.this, End.class);
                             end.putExtra("attempts",attempts);
+                            end.putExtra("time_elapsed",TIME_ELAPSED);
                             finish();
                             startActivity(end);
 
