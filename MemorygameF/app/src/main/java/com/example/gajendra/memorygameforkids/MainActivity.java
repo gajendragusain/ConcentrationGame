@@ -4,8 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.format.Time;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -25,7 +32,7 @@ import java.lang.Object;
 
 public class MainActivity extends ActionBarActivity {
 
-    private TextView status;
+    private TextView status, timerText;
     private MediaPlayer player, pl1, pl2,end;
     private HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
     private Integer[] images,imageIDs;
@@ -37,13 +44,18 @@ public class MainActivity extends ActionBarActivity {
     private Card image;
     private AdapterView.OnItemClickListener listen;
     private Button reset,board;
+    private Handler customHandler = new Handler();
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+    private long startTime = 0L;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Size = getIntent().getIntExtra("size",4);
+        Size = getIntent().getIntExtra("size", 4);
         START_TIME=System.currentTimeMillis();
         final GridView gridView = (GridView) findViewById(R.id.gridView);
         reset =(Button)findViewById(R.id.reset);
@@ -139,6 +151,8 @@ public class MainActivity extends ActionBarActivity {
                 if (isFinished()) {
                     gridView.setEnabled(false);
                     animate(status);
+                    timeSwapBuff += timeInMilliseconds;
+                    customHandler.removeCallbacks(updateTimerThread);
                     END_TIME=System.currentTimeMillis();
                     image.postDelayed(new Runnable() {
                         @Override
@@ -315,6 +329,85 @@ public class MainActivity extends ActionBarActivity {
         finish();
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.timer, menu);
+
+        MenuItem timerItem = menu.findItem(R.id.break_timer);
+        timerText = (TextView) MenuItemCompat.getActionView(timerItem);
+
+        timerText.setPadding(10, 0, 10, 0); //Or something like that...
+        customHandler.postDelayed(updateTimerThread, 0);
+        //startTimer(30000, 1000); //One tick every second for 30 seconds
+        return true;
+    }
+
+    /*private void startTimer(long duration, long interval) {
+
+        CountDownTimer timer = new CountDownTimer(duration, interval) {
+
+            @Override
+            public void onFinish() {
+                //TODO Whatever's meant to happen when it finishes
+            }
+
+            @Override
+            public void onTick(long millisecondsLeft) {
+                int secondsLeft = (int) Math.round((millisecondsLeft / (double) 1000));
+                timerText.setText(secondsToString(secondsLeft));
+            }
+        };
+
+        timer.start();
+    }*/
+
+    /*private String secondsToString(int improperSeconds) {
+
+        //Seconds must be fewer than are in a day
+
+        Time secConverter = new Time();
+
+        secConverter.hour = 0;
+        secConverter.minute = 0;
+        secConverter.second = 0;
+
+        secConverter.second = improperSeconds;
+        secConverter.normalize(true);
+
+        String hours = String.valueOf(secConverter.hour);
+        String minutes = String.valueOf(secConverter.minute);
+        String seconds = String.valueOf(secConverter.second);
+
+        if (seconds.length() < 2) {
+            seconds = "0" + seconds;
+        }
+        if (minutes.length() < 2) {
+            minutes = "0" + minutes;
+        }
+        if (hours.length() < 2) {
+            hours = "0" + hours;
+        }
+
+        String timeString = hours + ":" + minutes + ":" + seconds;
+        return timeString;
+    }*/
+
+    private Runnable updateTimerThread = new Runnable() {
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            timerText.setText("" + mins + ":"
+                            + String.format("%02d", secs) + ":"
+                            + String.format("%03d", milliseconds));
+            customHandler.postDelayed(this, 0);
+        }
+    };
+
     public void flip(Card view_new){
 
         FlipAnimator animator = new FlipAnimator(view_new,view_new, view_new.getWidth() / 2, view_new.getHeight() / 2);
