@@ -20,11 +20,11 @@ public class End extends ActionBarActivity {
         Button button2=(Button)findViewById(R.id.button2);
         Button button3=(Button)findViewById(R.id.button3);
         int attempts=getIntent().getIntExtra("attempts",0);
-        long TIME_ELAPSED=getIntent().getLongExtra("time_elapsed",0);
+        long time_elapsed=getIntent().getLongExtra("timeElapsed",0);
         TextView textView2=(TextView)findViewById(R.id.textView2);
         textView2.setText("No. of Attempts: " + attempts);
         TextView textView3=(TextView)findViewById(R.id.textView3);
-        textView3.setText("Time Taken: "+ (TIME_ELAPSED/1000) + " Seconds");
+        textView3.setText("Time Taken: "+ (time_elapsed/1000) + " Seconds");
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

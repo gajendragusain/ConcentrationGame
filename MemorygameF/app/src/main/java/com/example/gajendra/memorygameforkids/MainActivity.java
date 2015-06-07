@@ -38,7 +38,6 @@ public class MainActivity extends ActionBarActivity {
     private int match=0, countMove = 0;
     private Card firstImage, secondImage;
     private int attempts=0, Size, pos;
-    private long START_TIME,END_TIME,TIME_ELAPSED;
     private Card image;
     private AdapterView.OnItemClickListener listen;
     private Button reset,board;
@@ -54,7 +53,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Size = getIntent().getIntExtra("size", 4);
-        START_TIME=System.currentTimeMillis();
         startTime=SystemClock.uptimeMillis();
         final GridView gridView = (GridView) findViewById(R.id.gridView);
         reset =(Button)findViewById(R.id.reset);
@@ -150,23 +148,21 @@ public class MainActivity extends ActionBarActivity {
                 if (isFinished()) {
                     gridView.setEnabled(false);
                     animate(status);
-                    timeSwapBuff += timeInMilliseconds;
                     customHandler.removeCallbacks(updateTimerThread);
-                    END_TIME=System.currentTimeMillis();
+                    animate(timerText);
                     image.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             player.stop();
                             end.start();
-                            TIME_ELAPSED=END_TIME-START_TIME;
                             Intent end = new Intent(MainActivity.this, End.class);
                             end.putExtra("attempts",attempts);
-                            end.putExtra("time_elapsed",TIME_ELAPSED);
+                            end.putExtra("timeElapsed", updatedTime);
                             finish();
                             startActivity(end);
 
                         }
-                    },2000);
+                    },5000);
 
                 }
             }
@@ -258,7 +254,7 @@ public class MainActivity extends ActionBarActivity {
         final AlphaAnimation blink= new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
         blink.setDuration(300); // duration - half a second
         blink.setInterpolator(new LinearInterpolator()); // do not alter animation rate
-        blink.setRepeatCount(6); // Repeat animation infinitely
+        blink.setRepeatCount(10); // Repeat animation infinitely
         blink.setRepeatMode(Animation.REVERSE);
         v.startAnimation(blink);
     }
@@ -342,56 +338,6 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-    /*private void startTimer(long duration, long interval) {
-
-        CountDownTimer timer = new CountDownTimer(duration, interval) {
-
-            @Override
-            public void onFinish() {
-                //TODO Whatever's meant to happen when it finishes
-            }
-
-            @Override
-            public void onTick(long millisecondsLeft) {
-                int secondsLeft = (int) Math.round((millisecondsLeft / (double) 1000));
-                timerText.setText(secondsToString(secondsLeft));
-            }
-        };
-
-        timer.start();
-    }*/
-
-    /*private String secondsToString(int improperSeconds) {
-
-        //Seconds must be fewer than are in a day
-
-        Time secConverter = new Time();
-
-        secConverter.hour = 0;
-        secConverter.minute = 0;
-        secConverter.second = 0;
-
-        secConverter.second = improperSeconds;
-        secConverter.normalize(true);
-
-        String hours = String.valueOf(secConverter.hour);
-        String minutes = String.valueOf(secConverter.minute);
-        String seconds = String.valueOf(secConverter.second);
-
-        if (seconds.length() < 2) {
-            seconds = "0" + seconds;
-        }
-        if (minutes.length() < 2) {
-            minutes = "0" + minutes;
-        }
-        if (hours.length() < 2) {
-            hours = "0" + hours;
-        }
-
-        String timeString = hours + ":" + minutes + ":" + seconds;
-        return timeString;
-    }*/
-
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
@@ -407,14 +353,14 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    public void flip(Card view_new){
+    /*public void flip(Card view_new){
 
         FlipAnimator animator = new FlipAnimator(view_new,view_new, view_new.getWidth() / 2, view_new.getHeight() / 2);
-        /*if (view_old.getVisibility() == View.GONE) {
-            animator.reverse();
-        }*/
+        //if (view_old.getVisibility() == View.GONE) {
+          //  animator.reverse();
+        //}
         view_new.startAnimation(animator);
 
-           }
+           }*/
 }
 
