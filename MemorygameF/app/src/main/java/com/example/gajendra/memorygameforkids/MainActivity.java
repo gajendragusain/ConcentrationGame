@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     private HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
     private Integer[] images,imageIDs;
     private Integer[] voices,voiceIDs;
-    private int match=0, COUNT_MOVE = 0;
+    private int match=0, countMove = 0;
     private Card firstImage, secondImage;
     private int attempts=0, Size, pos;
     private long START_TIME,END_TIME,TIME_ELAPSED;
@@ -57,6 +55,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Size = getIntent().getIntExtra("size", 4);
         START_TIME=System.currentTimeMillis();
+        startTime=SystemClock.uptimeMillis();
         final GridView gridView = (GridView) findViewById(R.id.gridView);
         reset =(Button)findViewById(R.id.reset);
         board=(Button)findViewById(R.id.board);
@@ -99,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
                 image = (Card) view;
                 pos = position;
                 attempts++;
-                if (COUNT_MOVE != 2) {
+                if (countMove != 2) {
 
                     if (image.isDiscovered() == false) {
                        
@@ -109,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
                                 makeMove(image);
                     }
                 }
-                if (COUNT_MOVE == 2) {
+                if (countMove == 2) {
                     gridView.setOnItemClickListener(null);
                     if (firstImage.getTag().equals(secondImage.getTag())) {
 
@@ -207,7 +206,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void makeMove(Card box) {
-        if (COUNT_MOVE == 0) {
+        if (countMove == 0) {
             firstImage = box;
             pl1 = MediaPlayer.create(getApplicationContext(), hm.get(images[pos]));
             pl1.start();
@@ -216,13 +215,13 @@ public class MainActivity extends ActionBarActivity {
             pl2 = MediaPlayer.create(getApplicationContext(), hm.get(images[pos]));
             pl2.start();
         }
-        COUNT_MOVE++;
+        countMove++;
     }
 
     public void resetMove() {
         firstImage = null;
         secondImage = null;
-        COUNT_MOVE = 0;
+        countMove = 0;
         pl1.release();
         pl2.release();
         pl1 = null;
